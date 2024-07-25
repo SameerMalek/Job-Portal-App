@@ -6,8 +6,9 @@ import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
 
-export default function Header() {
+export default function Header({ user , profileInfo }) {
   const menuItems = [
     {
       label: "Home",
@@ -17,12 +18,33 @@ export default function Header() {
     {
       label: "Login",
       path: "/sign-in",
-      show: true,
+      show: !user,
     },
     {
       label: "Register",
       path: "/sign-up",
-      show: true,
+      show: !user,
+    },
+    {
+      label: "Activity",
+      path: "/activity",
+      show: profileInfo?.role === "candidate",
+    },
+    {
+      label: "Jobs",
+      path: "/jobs",
+      show: user,
+    },
+  
+    {
+      label: "Membership",
+      path: "/membership",
+      show: user,
+    },
+    {
+      label: "Account",
+      path: "/account",
+      show: user,
     },
   ];
   return (
@@ -51,6 +73,7 @@ export default function Header() {
                   </Link>
                 ) : null
               )}
+              <UserButton afterSignOutUrl="/" />
             </div>
           </SheetContent>
         </Sheet>
@@ -69,6 +92,7 @@ export default function Header() {
               </Link>
             ) : null
           )}
+          <UserButton afterSignOutUrl="/" />
         </nav>
       </header>
     </div>
