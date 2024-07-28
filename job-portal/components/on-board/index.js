@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
 import CommonForm from "../common-form";
@@ -10,42 +10,90 @@ import {
   recruiterOnboardFormControls,
 } from "./../../../utils/index";
 import { useUser } from "@clerk/clerk-react";
-import CreateProfile from "@/actions";
+import CreateProfileAction from "@/actions";
+import { createClient } from "@supabase/supabase-js";
 
+const supabaseClient = createClient(
+  "https://vvbuznbaijloqkjaphkl.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2YnV6bmJhaWpsb3FramFwaGtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjIxNjQ1NDgsImV4cCI6MjAzNzc0MDU0OH0.r_gXioGRVKHngt2YFjwoI-rOus6Z8z14lw3ConqRPzE"
+);
 export default function OnBoard() {
   const [currentTab, setCurrentTab] = useState("candidate");
+  const [file, setFile] = useState(null);
   const [recruiterFormData, setRecruiterFormData] = useState(
     initialRecruiterFormData
   );
   const [candidateFormData, setCandidateFormData] = useState(
     initialCandidateFormData
   );
+
+  function handleFileChange(event) {
+    event.preventDefault();
+    setFile(event.target.files[0]);
+  }
+
+  async function handleUploadPdfToSupabase() {
+    const { data, error } = await supabaseClient.storage
+      .from("Job-Portal")
+      .upload(`/public/${file.name}`, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+    console.log(data, error);
+    if (data) {
+      setCandidateFormData({
+        ...candidateFormData,
+        resume: data.path,
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (file) handleUploadPdfToSupabase();
+  }, [file]);
+
   const handleTabChange = (value) => {
     setCurrentTab(value);
   };
-  const handleRecruiterFormValidation = () => {
+
+  function handleRecruiterFormValidation() {
     return (
       recruiterFormData &&
       recruiterFormData.name.trim() !== "" &&
       recruiterFormData.companyName.trim() !== "" &&
       recruiterFormData.companyRole.trim() !== ""
     );
-  };
+  }
+
+  function handleCandidateFormValidation() {
+    return Object.keys(candidateFormData).every(
+      (key) => candidateFormData[key].trim() !== ""
+    );
+  }
 
   //Getting user info like userId and Email address:
   const currentAuthUser = useUser();
-  const {user} = currentAuthUser;
+  const { user } = currentAuthUser;
   console.log(currentAuthUser);
 
-  async function createProfileAction(){
-    const data = {
-      recruiterInfo : recruiterFormData,
-      role : "recruiter",
-      isPremiumUser : false,
-      userId: user?.id,
-      email : user?.primaryEmailAddress?.emailAddress
-    };
-    await CreateProfile(data, '/onboard')
+  async function createProfile() {
+    const data =
+      currentTab === "candidate"
+        ? {
+            candidateInfo: candidateFormData,
+            role: "candidate",
+            isPremiumUser: false,
+            userId: user?.id,
+            email: user?.primaryEmailAddress?.emailAddress,
+          }
+        : {
+            recruiterInfo: recruiterFormData,
+            role: "recruiter",
+            isPremiumUser: false,
+            userId: user?.id,
+            email: user?.primaryEmailAddress?.emailAddress,
+          };
+    await CreateProfileAction(data, "/onboard");
   }
 
   console.log(recruiterFormData);
@@ -70,7 +118,7 @@ export default function OnBoard() {
             formData={recruiterFormData}
             setFormData={setRecruiterFormData}
             isBtnDisabled={!handleRecruiterFormValidation()}
-            action={createProfileAction}
+            action={createProfile}
           />
         </TabsContent>
         <TabsContent value="candidate">
@@ -79,6 +127,9 @@ export default function OnBoard() {
             buttonText={"On board as Candidate"}
             formData={candidateFormData}
             setFormData={setCandidateFormData}
+            handleFileChange={handleFileChange}
+            isBtnDisabled={!handleCandidateFormValidation()}
+            action={createProfile}
           />
         </TabsContent>
       </Tabs>

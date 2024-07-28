@@ -53,7 +53,6 @@ function CommonForm({
             />
           </Label>
         );
-
         break;
 
       default:
@@ -84,7 +83,7 @@ function CommonForm({
 
   return (
     <form action={action}>
-      {formControls.map((control) => renderInputByComponentType(control))}
+      {formControls.map((control) =>renderInputByComponentType(control))}
       <div className="mt-6 w-full">
         <Button
           type={btnType || "submit"}
