@@ -19,7 +19,7 @@ export default function PostNewJob({ profileInfo, user }) {
 
   function handlePostNewBtnValid() {
     return Object.keys(jobFormData).every(
-      (control) => jobFormData[control].trim() !== ""
+      (control) => jobFormData[control] !== ""
     );
   }
 

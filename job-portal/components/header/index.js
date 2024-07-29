@@ -73,7 +73,7 @@ export default function Header({ user , profileInfo }) {
                   </Link>
                 ) : null
               )}
-              <UserButton afterSignOutUrl="/" />
+              <UserButton afterSwitchSessionUrl="/" />
             </div>
           </SheetContent>
         </Sheet>
@@ -92,7 +92,7 @@ export default function Header({ user , profileInfo }) {
               </Link>
             ) : null
           )}
-          <UserButton afterSignOutUrl="/" />
+          <UserButton afterSwitchSessionUrl="/" />
         </nav>
       </header>
     </div>

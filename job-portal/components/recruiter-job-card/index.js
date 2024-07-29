@@ -4,7 +4,7 @@ import CommonCard from "../common-card";
 import JobIcon from "../job-icon";
 import { Button } from "../ui/button";
 
-export default function RecruiterJobCard({ jobitem }) {
+export default function RecruiterJobCard({ jobitem, jobApplications }) {
   return (
     <div>
       <CommonCard
@@ -12,7 +12,9 @@ export default function RecruiterJobCard({ jobitem }) {
         title={jobitem.title}
         footerContent={
           <Button className="flex h-11 items-center justify-center px-5">
-            10 Applicants
+           {
+            jobApplications.filter((item)=> item.jobID === jobitem?._id).length
+          } Applicants
           </Button>
         }
       />

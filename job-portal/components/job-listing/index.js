@@ -3,8 +3,14 @@
 import React from "react";
 import PostNewJob from "../post-new-job";
 import RecruiterJobCard from "../recruiter-job-card";
+import CandidateJobCard from "../candidate-job-card";
 
-export default function JobListing({ user, profileInfo, jobsList }) {
+export default function JobListing({
+  user,
+  profileInfo,
+  jobsList,
+  jobApplications,
+}) {
   return (
     <div>
       <div className="mx-auto max-w-7xl">
@@ -28,11 +34,21 @@ export default function JobListing({ user, profileInfo, jobsList }) {
               <div className="container mx-auto p-0 space-y-8">
                 <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
                   {jobsList && jobsList.length > 0
-                    ? jobsList.map((jobitem) =>
+                    ? jobsList.map((jobitem, index) =>
                         profileInfo?.role === "candidate" ? (
-                          <p>Candidate</p>
+                          <CandidateJobCard
+                            key={index}
+                            profileInfo={profileInfo}
+                            jobitem={jobitem}
+                            jobApplications={jobApplications}
+                          />
                         ) : (
-                          <RecruiterJobCard jobitem={jobitem}/>
+                          <RecruiterJobCard
+                            key={index}
+                            profileInfo={profileInfo}
+                            jobitem={jobitem}
+                            jobApplications={jobApplications}
+                          />
                         )
                       )
                     : null}
