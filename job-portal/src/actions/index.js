@@ -1,8 +1,8 @@
 "use server";
 
-import connectToDB from "@/database";
-import Job from "@/models/job";
-import Profile from "@/models/profile";
+import connectToDB from "../database/index";
+import Job from "@/src/models/job";
+import Profile from "@/src/models/profile";
 import { revalidatePath } from "next/cache";
 import Application from "./../models/application";
 

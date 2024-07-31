@@ -6,7 +6,7 @@ import {
   initialCandidateFormData,
   initialRecruiterFormData,
   recruiterOnboardFormControls,
-} from "@/utils";
+} from "../../utils/index";
 import { useEffect, useState } from "react";
 import CommonForm from "../common-form";
 import { updateProfileAction } from "@/src/actions";
