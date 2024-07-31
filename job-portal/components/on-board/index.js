@@ -8,7 +8,7 @@ import {
   initialCandidateFormData,
   initialRecruiterFormData,
   recruiterOnboardFormControls,
-} from "./../../../utils/index";
+} from "../../utils/index";
 import { useUser } from "@clerk/clerk-react";
 import CreateProfileAction from "@/actions";
 import { createClient } from "@supabase/supabase-js";

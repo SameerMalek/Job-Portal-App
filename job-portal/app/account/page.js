@@ -1,14 +1,13 @@
 import { fetchProfileAction } from "@/actions";
-import Membership from "@/components/membership";
+import AccountInfo from "@/components/account-info";
 import { redirect } from "next/navigation";
 import { currentUser } from '@clerk/nextjs/server';
 
-async function MembershipPage() {
+async function AccountPage() {
   const user = await currentUser();
   const profileInfo = await fetchProfileAction(user?.id);
   if (!profileInfo) redirect("/onboard");
-
-  return <Membership profileInfo={profileInfo} />;
+  return <AccountInfo profileInfo={profileInfo} />;
 }
 
-export default MembershipPage;
+export default AccountPage;

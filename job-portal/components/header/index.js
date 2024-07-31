@@ -1,14 +1,13 @@
 "use client";
-// Because its a client side component.
+// Because it's a client-side component.
 import { AlignJustify } from "lucide-react";
-
 import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 
-export default function Header({ user , profileInfo }) {
+export default function Header({ user, profileInfo }) {
   const menuItems = [
     {
       label: "Home",
@@ -31,11 +30,15 @@ export default function Header({ user , profileInfo }) {
       show: profileInfo?.role === "candidate",
     },
     {
+      label: "Companies",
+      path: "/companies",
+      show:  profileInfo?.role === "candidate",
+    },
+    {
       label: "Jobs",
       path: "/jobs",
       show: user,
     },
-  
     {
       label: "Membership",
       path: "/membership",
@@ -47,6 +50,7 @@ export default function Header({ user , profileInfo }) {
       show: user,
     },
   ];
+
   return (
     <div>
       <header className="flex h-16 w-full shrink-0 items-center">
@@ -58,7 +62,7 @@ export default function Header({ user , profileInfo }) {
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
-            <Link className="mr-6 hidden lg:flex" href={"#"}>
+            <Link className="mr-6 lg:flex font-bold text-2xl" href={"#"}>
               <h3>JOBQUEST</h3>
             </Link>
             <div className="grid gap-2 py-6">
@@ -73,26 +77,27 @@ export default function Header({ user , profileInfo }) {
                   </Link>
                 ) : null
               )}
-              <UserButton afterSwitchSessionUrl="/" />
+              <UserButton redirectUrl="/"/>
             </div>
           </SheetContent>
         </Sheet>
-        <Link className="hidden lg:flex mr-6" href={"/"}>
+        <Link className="hidden font-bold text-3xl lg:flex mr-6" href={"/"}>
           JOBQUEST
         </Link>
-        <nav className="ml-auto hidden lg:flex gap-6">
+        <nav className="ml-auto hidden lg:flex gap-6 items-center">
           {menuItems.map((menuItem, index) =>
             menuItem.show ? (
               <Link
                 href={menuItem.path}
                 key={index}
-                className="group inline-flex h-9 w-max items-center rounded-md bg-white px-4 py-2 text-sm font-medium"
+                onClick={() => sessionStorage.removeItem("filterParams")}
+                className="group inline-flex h-9 w-max items-center rounded-md bg-white px-4 py-2 text-sm font-semibold"
               >
                 {menuItem.label}
               </Link>
             ) : null
           )}
-          <UserButton afterSwitchSessionUrl="/" />
+          <UserButton redirectUrl="/" />
         </nav>
       </header>
     </div>

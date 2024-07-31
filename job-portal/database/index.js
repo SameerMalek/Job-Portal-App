@@ -1,8 +1,7 @@
 const { default: mongoose } = require("mongoose");
 
 const connectToDB = () => {
-  const connectionURL =
-    "mongodb+srv://maleksameer715:sameer@cluster0.knys1gv.mongodb.net/";
+  const connectionURL = process.env.MONGODB_URL;
   mongoose
     .connect(connectionURL)
     .then(() => console.log("job board database connection successful!"))

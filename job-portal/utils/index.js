@@ -1,3 +1,5 @@
+import qs from "query-string";
+
 export const recruiterOnboardFormControls = [
   {
     label: "Name",
@@ -224,5 +226,44 @@ export const filterMenuDataArray = [
   {
     id: "location",
     label: "Location",
+  },
+];
+
+export function formUrlQuery({ params, dataToAdd }) {
+  let currentURL = qs.parse(params);
+
+  if (Object.keys(dataToAdd).length > 0) {
+    Object.keys(dataToAdd).map((key) => {
+      if (dataToAdd[key].length === 0) delete currentURL[key];
+      else currentURL[key] = dataToAdd[key].join(",");
+    });
+  }
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentURL,
+    },
+    {
+      skipNull: true,
+    }
+  );
+}
+
+export const membershipPlans = [
+  {
+    heading: "Tier 1",
+    price: 30,
+    type: "basic",
+  },
+  {
+    heading: "Tier 2",
+    price: 50,
+    type: "teams",
+  },
+  {
+    heading: "Tier 3",
+    price: 90,
+    type: "enterprise",
   },
 ];
