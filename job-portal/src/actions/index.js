@@ -168,6 +168,7 @@ export async function updateProfileAction(data, pathToRevalidate) {
 }
 
 //create stripe price id based on tier selection
+
 export async function createPriceIdAction(data) {
   const session = await stripe.prices.create({
     currency: "cad",
@@ -187,6 +188,7 @@ export async function createPriceIdAction(data) {
 }
 
 //create payment logic
+
 export async function createStripePaymentAction(data) {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],

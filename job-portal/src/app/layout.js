@@ -4,11 +4,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import CommonLayout from "@/src/components/common-layout";
 import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
+  ClerkProvider
 } from '@clerk/nextjs'
 import { Toaster } from "@/src/components/ui/toaster";
 
