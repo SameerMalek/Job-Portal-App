@@ -21,6 +21,7 @@
     "@supabase/supabase-js": "^2.44.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "job-portal": "file:",
     "lucide-react": "^0.412.0",
     "mongoose": "^8.5.1",
     "next": "14.2.4",
