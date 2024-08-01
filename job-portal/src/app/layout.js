@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-// import { Suspense } from "react";
-// import Loading from "./loading";
+import { Suspense } from "react";
+import Loading from "./loading";
 import CommonLayout from "@/src/components/common-layout";
 import {
   ClerkProvider
@@ -20,9 +20,9 @@ export default function RootLayout({ children }) {
    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
      <html lang="en">
       <body className={inter.className}>
-        {/* <Suspense fallback={<Loading/>}> */}
+        <Suspense fallback={<Loading/>}>
         <CommonLayout children={children}/>
-        {/* </Suspense> */}
+        </Suspense>
         <Toaster/>
       </body>
     </html> 
