@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   candidateOnboardFormControls,
   initialCandidateAccountFormData,
@@ -7,7 +10,6 @@ import {
   initialRecruiterFormData,
   recruiterOnboardFormControls,
 } from "../../utils/index";
-import { useEffect, useState } from "react";
 import CommonForm from "../common-form";
 import { updateProfileAction } from "@/src/actions";
 
@@ -61,6 +63,7 @@ function AccountInfo({ profileInfo }) {
           },
       "/account"
     );
+    toast.success("Profile updated successfully!");
   }
 
   return (
@@ -95,6 +98,7 @@ function AccountInfo({ profileInfo }) {
           />
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
