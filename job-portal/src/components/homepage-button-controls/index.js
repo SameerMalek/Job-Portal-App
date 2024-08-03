@@ -9,30 +9,40 @@ function HomepageButtonControls({ user, profileInfo }) {
 
   useEffect(() => {
     router.refresh();
-  }, []);
+  }, [router]);
+
+  const handleJobButtonClick = () => {
+    if (!user) {
+      router.push("/sign-in");
+    } else {
+      router.push("/jobs");
+    }
+  };
+
+  const handlePostButtonClick = () => {
+    if (!user) {
+      router.push("/sign-in");
+    } else {
+      const destination =
+        profileInfo?.role === "candidate" ? "/activity" : "/jobs";
+      router.push(destination);
+    }
+  };
 
   return (
     <div className="flex space-x-4">
       <Button
-        onClick={() => router.push("/jobs")}
+        onClick={handleJobButtonClick}
         className="flex h-11 items-center justify-center px-5"
       >
         {user
           ? profileInfo?.role === "candidate"
             ? "Browse Jobs"
-            : "Jobs Dasboard"
+            : "Jobs Dashboard"
           : "Find Jobs"}
       </Button>
       <Button
-        onClick={() =>
-          router.push(
-            user
-              ? profileInfo?.role === "candidate"
-                ? "/activity"
-                : "/jobs"
-              : "/jobs"
-          )
-        }
+        onClick={handlePostButtonClick}
         className="flex h-11 items-center justify-center px-5"
       >
         {user

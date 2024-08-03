@@ -13,7 +13,7 @@ export default async function HomeServer() {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
-        email: user.emailAddresses?.[0]?.emailAddress, // include other necessary fields
+        email: user.emailAddresses?.[0]?.emailAddress,
       }
     : null;
 
